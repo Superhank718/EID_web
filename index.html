@@ -6,10 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>test web</title>
 </head>
-      
      
-
 <body>
-      
+    <br>test wed body<br>
+    <script>
+        if (window.PublicKeyCredential) {
+            // 定義公鑰選項
+            const options = {
+                rp: { name: 'RP_EID_server', id: 'RP_EID_server' },
+                user: {},
+                challenge: crypto.randomBytes(64),
+                pubKeyCredParams: [
+                { type: 'public-key', alg: -7 },
+                { type: 'public-key', alg: -257 }
+                ],
+                timeout: 60000,
+                attestation: 'none',
+                authenticatorSelection: {
+                authenticatorAttachment: 'platform',
+                requireResidentKey: false,
+                userVerification: 'required'
+                }
+            };
+            
+            // 呼叫 navigator.credentials.create()
+            navigator.credentials.create({ options })
+                .then((newCredentialInfo) => {
+                    console.log("Created credential:", newCredentialInfo);
+                })
+                .catch((err) => {
+                    console.error("Error creating credential:", err);
+                });
+        } else {
+            console.error("navigator.credentials.create() is not supported.");
+        }
+    </script>
 </body>
 </html>
